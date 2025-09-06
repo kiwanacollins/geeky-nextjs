@@ -27,8 +27,8 @@ const Header = ({ breakingNews = [], categories = [] }) => {
       {/* Breaking News Banner */}
       <BreakingNews breakingNews={breakingNews} />
       
-      <AppShell.Header className="bg-gradient-to-r from-white to-gray-50 dark:from-darkmode-body dark:to-slate-800 shadow-lg border-b border-border dark:border-darkmode-border min-h-[60px] backdrop-blur-sm">
-        <Group h="100%" px="4" justify="space-between" className="min-h-[60px] max-w-7xl mx-auto">
+      <AppShell.Header className="bg-white dark:bg-darkmode-body border-b border-border dark:border-darkmode-border">
+        <Group h="70" px="6" justify="space-between" className="max-w-7xl mx-auto">
           <Group className="flex items-center">
             <div className="transform transition-transform duration-300 hover:scale-105">
               <Logo />
@@ -36,33 +36,33 @@ const Header = ({ breakingNews = [], categories = [] }) => {
           </Group>
 
           {/* Desktop Navigation */}
-          <Group gap="xs" visibleFrom="lg" className="hidden lg:flex">
+          <Group gap="xl" visibleFrom="lg" className="hidden lg:flex">
             {main.map((menuItem, i) => (
               <React.Fragment key={`menu-${i}`}>
                 {menuItem.hasChildren ? (
                   <Box className="relative group">
                     <UnstyledButton
-                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-md transform hover:scale-105 ${
+                      className={`px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                         menuItem.children
                           .map((c) => c.url)
                           .includes(router.asPath) 
-                          ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg" 
-                          : "text-dark dark:text-darkmode-light hover:bg-gradient-to-r hover:from-primary hover:to-red-600 hover:text-white"
+                          ? "text-primary border-b-2 border-primary" 
+                          : "text-dark dark:text-darkmode-light hover:text-primary"
                       }`}
                     >
-                      <Group gap={6}>
-                        <Text size="sm" fw={600}>{menuItem.name}</Text>
-                        <svg className="h-3 w-3 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
+                      <Group gap={4} className="items-center">
+                        <Text size="sm" fw={500}>{menuItem.name}</Text>
+                        <svg className="h-4 w-4 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
                           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                         </svg>
                       </Group>
                     </UnstyledButton>
-                    <Box className="absolute top-full left-0 mt-2 py-3 bg-white dark:bg-darkmode-body border border-border dark:border-darkmode-border rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 min-w-[220px] backdrop-blur-sm">
+                    <Box className="absolute top-full left-0 mt-1 py-2 bg-white dark:bg-darkmode-body border border-border dark:border-darkmode-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[180px]">
                       {menuItem.children.map((child, j) => (
                         <Link key={j} href={child.url} className="block">
                           <UnstyledButton
-                            className={`w-full text-left px-5 py-3 text-sm font-medium transition-all duration-200 hover:bg-gradient-to-r hover:from-primary/10 hover:to-red-100 hover:text-primary border-l-2 border-transparent hover:border-primary ${
-                              router.asPath === child.url ? "bg-gradient-to-r from-primary/10 to-red-100 text-primary border-l-primary" : "text-dark dark:text-darkmode-light"
+                            className={`w-full text-left px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-darkmode-theme-light hover:text-primary ${
+                              router.asPath === child.url ? "text-primary bg-gray-50 dark:bg-darkmode-theme-light" : "text-dark dark:text-darkmode-light"
                             }`}
                           >
                             {child.name}
@@ -74,13 +74,13 @@ const Header = ({ breakingNews = [], categories = [] }) => {
                 ) : (
                   <Link href={menuItem.url} className="block">
                     <UnstyledButton
-                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-md transform hover:scale-105 ${
+                      className={`px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                         router.asPath === menuItem.url 
-                          ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg" 
-                          : "text-dark dark:text-darkmode-light hover:bg-gradient-to-r hover:from-primary hover:to-red-600 hover:text-white"
+                          ? "text-primary border-b-2 border-primary" 
+                          : "text-dark dark:text-darkmode-light hover:text-primary"
                       }`}
                     >
-                      <Text size="sm" fw={600}>{menuItem.name}</Text>
+                      <Text size="sm" fw={500}>{menuItem.name}</Text>
                     </UnstyledButton>
                   </Link>
                 )}
@@ -91,31 +91,26 @@ const Header = ({ breakingNews = [], categories = [] }) => {
           {/* Right side controls */}
           <Group gap="md" className="flex items-center">
             <div className="hidden sm:block">
-              <div className="p-1 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-sm">
-                <ThemeSwitcher />
-              </div>
+              <ThemeSwitcher />
             </div>
             
             {/* Search button */}
             <UnstyledButton
               onClick={() => setSearchModal(true)}
-              className="p-3 rounded-full bg-gradient-to-r from-primary to-red-600 text-white hover:from-red-600 hover:to-primary transition-all duration-300 hover:shadow-lg transform hover:scale-110 group"
+              className="p-2 rounded-full bg-primary text-white hover:bg-primary/90 transition-colors duration-200"
               aria-label="Search"
             >
-              <IoSearch className="text-lg group-hover:scale-110 transition-transform" />
+              <IoSearch className="text-lg" />
             </UnstyledButton>
             
             {/* Mobile menu burger */}
             <div className="lg:hidden">
-              <div className="p-2 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300">
-                <Burger 
-                  opened={opened} 
-                  onClick={toggle} 
-                  color="#dc2626"
-                  size="sm"
-                  className="transition-transform duration-300 hover:scale-110"
-                />
-              </div>
+              <Burger 
+                opened={opened} 
+                onClick={toggle} 
+                color="#dc2626"
+                size="sm"
+              />
             </div>
           </Group>
         </Group>
