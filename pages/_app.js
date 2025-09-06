@@ -1,11 +1,13 @@
 import config from "@config/config.json";
 import theme from "@config/theme.json";
 import { JsonContext } from "context/state";
+import { MantineProvider } from "@mantine/core";
 import { ThemeProvider } from "next-themes";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import TagManager from "react-gtm-module";
 import "styles/style.scss";
+import '@mantine/core/styles.css';
 
 const App = ({ Component, pageProps }) => {
   // default theme setup
@@ -57,7 +59,29 @@ const App = ({ Component, pageProps }) => {
         />
       </Head>
       <ThemeProvider attribute="class" defaultTheme={default_theme}>
-        <Component {...pageProps} />
+        <MantineProvider
+          theme={{
+            primaryColor: 'red',
+            colors: {
+              red: [
+                '#fef2f2',
+                '#fee2e2',
+                '#fecaca',
+                '#fca5a5',
+                '#f87171',
+                '#ef4444',
+                '#dc2626', // our primary
+                '#b91c1c',
+                '#991b1b',
+                '#7f1d1d'
+              ]
+            },
+            fontFamily: 'Raleway, sans-serif',
+            headings: { fontFamily: 'Merriweather Sans, sans-serif' }
+          }}
+        >
+          <Component {...pageProps} />
+        </MantineProvider>
       </ThemeProvider>
     </JsonContext>
   );

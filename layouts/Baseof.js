@@ -2,6 +2,7 @@ import config from "@config/config.json";
 import { plainify } from "@lib/utils/textConverter";
 import Footer from "@partials/Footer";
 import Header from "@partials/Header";
+import { AppShell } from "@mantine/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -89,9 +90,15 @@ const Base = ({
         />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Header />
-      {/* main site */}
-      <main>{children}</main>
+      
+      <AppShell header={{ height: { base: 60, sm: 70, md: 80 } }}>
+        <Header />
+        
+        <AppShell.Main>
+          {children}
+        </AppShell.Main>
+      </AppShell>
+      
       <Footer />
     </>
   );

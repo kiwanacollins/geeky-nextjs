@@ -182,12 +182,12 @@ const Sidebar = ({ posts, categories, className }) => {
       )}
 
       {/* newsletter */}
-      {newsletter.enable && (
+      {newsletter.enable && newsletter.mailchimp_url && (
         <div className="mt-6  rounded border border-border p-6 text-center dark:border-darkmode-border">
           <h4 className="section-title">{newsletter.title}</h4>
           <p className="mt-10 text-xs">{newsletter.content}</p>
           <MailchimpSubscribe
-            url={newsletter.malichip_url}
+            url={newsletter.mailchimp_url}
             render={({ subscribe, status, message }) => (
               <CustomForm
                 onValidated={(formData) => subscribe(formData)}

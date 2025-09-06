@@ -1,14 +1,14 @@
 import Logo from "@components/Logo";
 import menu from "@config/menu.json";
-import socical from "@config/social.json";
-import Social from "@layouts/components/Social";
 import ThemeSwitcher from "@layouts/components/ThemeSwitcher";
 import BreakingNews from "@partials/BreakingNews";
 import CategoryNav from "@partials/CategoryNav";
 import SearchModal from "@partials/SearchModal";
+import { AppShell, Burger, Group, UnstyledButton, Collapse, Text, Box } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
 const Header = ({ breakingNews = [], categories = [] }) => {
@@ -17,158 +17,172 @@ const Header = ({ breakingNews = [], categories = [] }) => {
 
   // states declaration
   const [searchModal, setSearchModal] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [opened, { toggle }] = useDisclosure();
 
   // Router
   const router = useRouter();
-
-  //stop scrolling when nav is open
-  useEffect(() => {
-    if (showMenu) {
-      document.body.classList.add("menu-open");
-    } else {
-      document.body.classList.remove("menu-open");
-    }
-  }, [showMenu]);
 
   return (
     <>
       {/* Breaking News Banner */}
       <BreakingNews breakingNews={breakingNews} />
       
-      <header className="header sticky top-0 z-50 bg-white dark:bg-darkmode-body shadow-sm">
-        <nav className="navbar container px-1 sm:px-8">
-          <div className="order-0">
-            <Logo />
-          </div>
-          <div className="flex items-center space-x-2 xl:space-x-4">
-            <div
-              className={`collapse-menu ${
-                !showMenu && "translate-x-full"
-              } lg:flex lg:translate-x-0`}
-            >
-              <button
-                className="absolute right-6 top-11 lg:hidden z-50"
-                onClick={() => setShowMenu(false)}
-              >
-                <svg className="h-6 w-6 fill-current text-dark dark:text-darkmode-dark" viewBox="0 0 20 20">
-                  <title>Menu Close</title>
-                  <polygon
-                    points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
-                    transform="rotate(45 10 10)"
-                  />
-                </svg>
-              </button>
-              <ul
-                id="nav-menu"
-                className="navbar-nav w-full md:w-auto md:space-x-1 lg:flex xl:space-x-2"
-              >
-                {main.map((menu, i) => (
-                  <React.Fragment key={`menu-${i}`}>
-                    {menu.hasChildren ? (
-                      <li className="nav-item nav-dropdown group relative">
-                        <span
-                          className={`nav-link ${
-                            menu.children
-                              .map((c) => c.url)
-                              .includes(router.asPath) && "active"
-                          } inline-flex items-center`}
-                        >
-                          {menu.name}
-                          <svg
-                            className="h-4 w-4 fill-current ml-1"
-                            viewBox="0 0 20 20"
+      <AppShell.Header className="bg-gradient-to-r from-white to-gray-50 dark:from-darkmode-body dark:to-slate-800 shadow-lg border-b border-border dark:border-darkmode-border min-h-[60px] backdrop-blur-sm">
+        <Group h="100%" px="4" justify="space-between" className="min-h-[60px] max-w-7xl mx-auto">
+          <Group className="flex items-center">
+            <div className="transform transition-transform duration-300 hover:scale-105">
+              <Logo />
+            </div>
+          </Group>
+
+          {/* Desktop Navigation */}
+          <Group gap="xs" visibleFrom="lg" className="hidden lg:flex">
+            {main.map((menuItem, i) => (
+              <React.Fragment key={`menu-${i}`}>
+                {menuItem.hasChildren ? (
+                  <Box className="relative group">
+                    <UnstyledButton
+                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-md transform hover:scale-105 ${
+                        menuItem.children
+                          .map((c) => c.url)
+                          .includes(router.asPath) 
+                          ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg" 
+                          : "text-dark dark:text-darkmode-light hover:bg-gradient-to-r hover:from-primary hover:to-red-600 hover:text-white"
+                      }`}
+                    >
+                      <Group gap={6}>
+                        <Text size="sm" fw={600}>{menuItem.name}</Text>
+                        <svg className="h-3 w-3 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                      </Group>
+                    </UnstyledButton>
+                    <Box className="absolute top-full left-0 mt-2 py-3 bg-white dark:bg-darkmode-body border border-border dark:border-darkmode-border rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 min-w-[220px] backdrop-blur-sm">
+                      {menuItem.children.map((child, j) => (
+                        <Link key={j} href={child.url} className="block">
+                          <UnstyledButton
+                            className={`w-full text-left px-5 py-3 text-sm font-medium transition-all duration-200 hover:bg-gradient-to-r hover:from-primary/10 hover:to-red-100 hover:text-primary border-l-2 border-transparent hover:border-primary ${
+                              router.asPath === child.url ? "bg-gradient-to-r from-primary/10 to-red-100 text-primary border-l-primary" : "text-dark dark:text-darkmode-light"
+                            }`}
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </span>
-                        <ul className="nav-dropdown-list hidden transition-all duration-300 group-hover:top-[46px] group-hover:block md:invisible md:absolute md:top-[60px] md:block md:opacity-0 md:group-hover:visible md:group-hover:opacity-100">
-                          {menu.children.map((child, i) => (
-                            <li
-                              className="nav-dropdown-item"
-                              key={`children-${i}`}
-                            >
-                              <Link
-                                href={child.url}
-                                className={`nav-dropdown-link block ${
-                                  router.asPath === child.url && "active"
-                                }`}
-                              >
-                                {child.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ) : (
-                      <li className="nav-item">
-                        <Link
-                          href={menu.url}
-                          className={`nav-link block ${
-                            router.asPath === menu.url && "active"
-                          }`}
-                        >
-                          {menu.name}
+                            {child.name}
+                          </UnstyledButton>
                         </Link>
-                      </li>
-                    )}
-                  </React.Fragment>
-                ))}
-              </ul>
-              {/* header social */}
-              <Social source={socical} className="socials hidden lg:flex" />
+                      ))}
+                    </Box>
+                  </Box>
+                ) : (
+                  <Link href={menuItem.url} className="block">
+                    <UnstyledButton
+                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-md transform hover:scale-105 ${
+                        router.asPath === menuItem.url 
+                          ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg" 
+                          : "text-dark dark:text-darkmode-light hover:bg-gradient-to-r hover:from-primary hover:to-red-600 hover:text-white"
+                      }`}
+                    >
+                      <Text size="sm" fw={600}>{menuItem.name}</Text>
+                    </UnstyledButton>
+                  </Link>
+                )}
+              </React.Fragment>
+            ))}
+          </Group>
+
+          {/* Right side controls */}
+          <Group gap="md" className="flex items-center">
+            <div className="hidden sm:block">
+              <div className="p-1 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-sm">
+                <ThemeSwitcher />
+              </div>
             </div>
             
-            <ThemeSwitcher />
-            
-            {/* Header search */}
-            <button
-              className="search-icon p-2 hover:bg-theme-light dark:hover:bg-darkmode-theme-light rounded-full transition-colors duration-200"
-              onClick={() => {
-                setSearchModal(true);
-              }}
+            {/* Search button */}
+            <UnstyledButton
+              onClick={() => setSearchModal(true)}
+              className="p-3 rounded-full bg-gradient-to-r from-primary to-red-600 text-white hover:from-red-600 hover:to-primary transition-all duration-300 hover:shadow-lg transform hover:scale-110 group"
               aria-label="Search"
             >
-              <IoSearch className="text-xl" />
-            </button>
+              <IoSearch className="text-lg group-hover:scale-110 transition-transform" />
+            </UnstyledButton>
             
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setShowMenu(!showMenu)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white lg:hidden hover:bg-dark transition-colors duration-200"
-              aria-label="Toggle menu"
-            >
-              {showMenu ? (
-                <svg className="h-5 w-5 fill-current" viewBox="0 0 20 20">
-                  <title>Menu Close</title>
-                  <polygon
-                    points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
-                    transform="rotate(45 10 10)"
-                  />
-                </svg>
-              ) : (
-                <svg className="h-5 w-5 fill-current" viewBox="0 0 20 20">
-                  <title>Menu Open</title>
-                  <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z" />
-                </svg>
-              )}
-            </button>
-          </div>
+            {/* Mobile menu burger */}
+            <div className="lg:hidden">
+              <div className="p-2 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300">
+                <Burger 
+                  opened={opened} 
+                  onClick={toggle} 
+                  color="#dc2626"
+                  size="sm"
+                  className="transition-transform duration-300 hover:scale-110"
+                />
+              </div>
+            </div>
+          </Group>
+        </Group>
 
-          <SearchModal
-            searchModal={searchModal}
-            setSearchModal={setSearchModal}
-          />
-        </nav>
-        
-        {/* Mobile menu backdrop */}
-        {showMenu && (
-          <div 
-            className="header-backdrop fixed inset-0 bg-black/50 lg:hidden z-40"
-            onClick={() => setShowMenu(false)}
-          />
-        )}
-      </header>
+        {/* Mobile Navigation */}
+        <Collapse in={opened}>
+          <Box className="mx-4 mb-4 rounded-xl bg-white/95 dark:bg-darkmode-body/95 backdrop-blur-md border border-border/50 dark:border-darkmode-border/50 shadow-2xl overflow-hidden">
+            <div className="p-2">
+              {main.map((menuItem, i) => (
+                <React.Fragment key={`mobile-menu-${i}`}>
+                  {menuItem.hasChildren ? (
+                    <Box className="mb-1">
+                      <div className="px-4 py-3 font-semibold text-dark dark:text-darkmode-light bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 rounded-lg mb-2">
+                        <Text size="sm" fw={700} className="tracking-wide">
+                          {menuItem.name}
+                        </Text>
+                      </div>
+                      <div className="pl-2 space-y-1">
+                        {menuItem.children.map((child, j) => (
+                          <Link key={j} href={child.url} className="block">
+                            <UnstyledButton
+                              onClick={() => toggle()}
+                              className={`w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 border-l-2 border-transparent hover:border-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-red-50 dark:hover:to-slate-800 ${
+                                router.asPath === child.url ? "bg-gradient-to-r from-primary/10 to-red-50 dark:to-slate-800 text-primary border-l-primary" : "text-dark dark:text-darkmode-light hover:text-primary"
+                              }`}
+                            >
+                              <Text size="sm">{child.name}</Text>
+                            </UnstyledButton>
+                          </Link>
+                        ))}
+                      </div>
+                    </Box>
+                  ) : (
+                    <Link href={menuItem.url} className="block mb-1">
+                      <UnstyledButton
+                        onClick={() => toggle()}
+                        className={`w-full text-left px-4 py-4 font-semibold rounded-lg transition-all duration-300 hover:shadow-md transform hover:scale-[0.98] ${
+                          router.asPath === menuItem.url ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg" : "text-dark dark:text-darkmode-light hover:bg-gradient-to-r hover:from-primary/10 hover:to-red-50 dark:hover:to-slate-800 hover:text-primary"
+                        }`}
+                      >
+                        <Text size="sm" fw={600}>
+                          {menuItem.name}
+                        </Text>
+                      </UnstyledButton>
+                    </Link>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+            
+            {/* Mobile theme switcher */}
+            <div className="px-4 py-3 border-t border-border/30 dark:border-darkmode-border/30 bg-gradient-to-r from-gray-50/50 to-gray-100/50 dark:from-slate-800/50 dark:to-slate-700/50">
+              <div className="flex items-center justify-between">
+                <Text size="sm" fw={600} className="text-dark dark:text-darkmode-light">
+                  Theme
+                </Text>
+                <ThemeSwitcher />
+              </div>
+            </div>
+          </Box>
+        </Collapse>
+
+        <SearchModal
+          searchModal={searchModal}
+          setSearchModal={setSearchModal}
+        />
+      </AppShell.Header>
       
       {/* Category Navigation */}
       <CategoryNav categories={categories} />
