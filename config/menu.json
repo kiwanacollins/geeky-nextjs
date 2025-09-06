@@ -5,27 +5,47 @@
       "url": "/"
     },
     {
-      "name": "About",
-      "url": "/about"
+      "name": "News",
+      "url": "/categories/news"
     },
     {
-      "name": "Elements",
-      "url": "/elements"
-    },
-    {
-      "name": "Contact",
-      "url": "/contact"
-    },
-    {
-      "name": "Pages",
+      "name": "Categories",
       "url": "",
       "hasChildren": true,
       "children": [
         {
-          "name": "Categories",
+          "name": "All Categories",
           "url": "/categories"
+        },
+        {
+          "name": "Gossip",
+          "url": "/categories/gossip"
+        },
+        {
+          "name": "Lifestyle",
+          "url": "/categories/lifestyle"
+        },
+        {
+          "name": "Music",
+          "url": "/categories/music"
+        },
+        {
+          "name": "Relationships",
+          "url": "/categories/relationships"
+        },
+        {
+          "name": "Events",
+          "url": "/categories/events"
         }
       ]
+    },
+    {
+      "name": "About",
+      "url": "/about"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact"
     }
   ],
   "footer": [
@@ -43,7 +63,23 @@
     },
     {
       "name": "Privacy Policy",
-      "url": "#"
+      "url": "/privacy-policy"
+    },
+    {
+      "name": "Terms of Service",
+      "url": "/terms-of-service"
+    },
+    {
+      "name": "Disclaimer",
+      "url": "/disclaimer"
+    },
+    {
+      "name": "Cookie Policy",
+      "url": "/cookie-policy"
+    },
+    {
+      "name": "DMCA",
+      "url": "/dmca"
     }
   ]
 }

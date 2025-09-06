@@ -1,0 +1,207 @@
+/* Exclusive.co.ug Inspired Styles */
+
+/* Breaking News Styles */
+.breaking-news {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  
+  &::before {
+    content: '';
+    @apply absolute inset-0 opacity-20;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shimmer 3s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Category Navigation Styles */
+.category-nav {
+  .scrollbar-hide {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+/* Post Card Enhancements */
+.post {
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Author Byline Styles */
+.author-byline {
+  .hover\:ring-2:hover {
+    @apply ring-2 ring-primary;
+  }
+}
+
+/* Weekly Section Styles */
+.weekly-section {
+  h2, h3 {
+    @apply tracking-tight;
+  }
+  
+  .trending-item {
+    @apply transition-all duration-200 hover:shadow-md;
+  }
+}
+
+/* Load More Component Styles */
+.load-more {
+  button {
+    @apply relative overflow-hidden;
+    
+    &::before {
+      content: '';
+      @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-200;
+    }
+    
+    &:hover::before {
+      @apply opacity-10;
+    }
+  }
+  
+  .progress-bar {
+    @apply transition-all duration-500 ease-out;
+  }
+}
+
+/* Enhanced Header Styles */
+.header {
+  @apply backdrop-blur-sm;
+  
+  .navbar {
+    @apply relative z-50;
+  }
+  
+  .collapse-menu {
+    @apply fixed top-0 right-0 h-screen w-80 bg-white dark:bg-darkmode-body shadow-2xl lg:relative lg:h-auto lg:w-auto lg:bg-transparent lg:shadow-none lg:dark:bg-transparent;
+    transition: transform 0.3s ease-in-out;
+    
+    .navbar-nav {
+      @apply flex-col space-y-2 p-6 pt-20 lg:flex-row lg:space-y-0 lg:space-x-2 lg:p-0 lg:pt-0;
+    }
+    
+    .nav-link {
+      @apply block px-4 py-3 rounded-lg text-dark dark:text-darkmode-dark hover:bg-theme-light dark:hover:bg-darkmode-theme-light lg:inline-block lg:px-3 lg:py-2;
+      
+      &.active {
+        @apply bg-primary text-white lg:bg-primary lg:text-white;
+      }
+    }
+  }
+  
+  .search-icon {
+    @apply cursor-pointer text-dark dark:text-darkmode-dark hover:text-primary dark:hover:text-darkmode-primary;
+  }
+  
+  .socials {
+    @apply mt-4 lg:mt-0;
+  }
+}
+
+/* Mobile Navigation Improvements */
+@media (max-width: 1023px) {
+  .menu-open {
+    @apply overflow-hidden;
+  }
+  
+  .header-backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-40;
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+  .breaking-news {
+    background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .post {
+    h3 {
+      @apply text-lg leading-tight;
+    }
+  }
+  
+  .weekly-section {
+    h2 {
+      @apply text-xl;
+    }
+  }
+}
+
+/* Animation Utilities */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite;
+}
+
+/* Custom Scrollbar for Better UX */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(220, 38, 38) rgb(243, 244, 246);
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+    
+    &:hover {
+      @apply bg-red-700;
+    }
+  }
+}
+
+/* Focus Improvements for Accessibility */
+.focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 dark:ring-offset-darkmode-body;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 dark:ring-offset-darkmode-body;
+}
